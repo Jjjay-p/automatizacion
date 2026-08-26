@@ -29,8 +29,8 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python main.py
 
-      - name: Auto commit del informe
+      - name: Auto commit de la página web
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Nuevo reporte de noticias generado por IA"
-          file_pattern: 'reporte_*.md'
+          commit_message: "Actualización diaria de portal de noticias"
+          file_pattern: 'index.html'

@@ -7,9 +7,19 @@
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 40px 20px; }
         .container { max-width: 800px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 40px; }
+        header { text-align: center; margin-bottom: 30px; }
         h1 { font-size: 2.5rem; margin-bottom: 10px; color: #38bdf8; }
-        .timestamp { color: #94a3b8; font-size: 0.9rem; }
+        .timestamp { color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; }
+        
+        /* Botón de recarga */
+        .btn-update {
+            background: #0284c7; color: white; border: none; padding: 12px 24px;
+            font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer;
+            transition: background 0.2s, transform 0.1s; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-update:hover { background: #0369a1; transform: translateY(-1px); }
+        .btn-update:disabled { background: #475569; cursor: not-allowed; }
+        
         .card { background: #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid #334155; }
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .badge { color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
@@ -17,77 +27,120 @@
         h2 { font-size: 1.25rem; margin: 0 0 12px 0; color: #f1f5f9; }
         .summary { color: #cbd5e1; line-height: 1.6; margin-bottom: 16px; }
         .card-footer { font-size: 0.85rem; color: #64748b; border-top: 1px solid #334155; padding-top: 12px; }
+        #status-msg { margin-top: 15px; font-size: 0.9rem; color: #38bdf8; display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>📰 What's Happening Today?</h1>
-            <p class="timestamp">Última actualización: 26/08/2026 22:00 (hs)</p>
+            <p class="timestamp">Última actualización: 26/08/2026 22:14 (hs)</p>
+            <button class="btn-update" id="reloadBtn" onclick="dispararActualizacion()">
+                🔄 Actualizar Noticias Ahora
+            </button>
+            <div id="status-msg">🚀 Generando noticias frescas... La página se recargará en 45 segundos.</div>
         </header>
         <main>
             
         <div class="card">
             <div class="card-header">
                 <span class="badge" style="background-color: #16a34a;">Alcista</span>
-                <span class="source">Bloomberg / El País</span>
+                <span class="source">Bloomberg Tecnología</span>
             </div>
-            <h2>1. El BCE Mantiene Tipos, Pero Abre la Puerta a Recortes en el Último Trimestre de 2026</h2>
-            <p class="summary">El Banco Central Europeo decidió mantener su tipo de interés principal en el 4.5% en su reunión de agosto, pero el comunicado de Christine Lagarde insinuó una posible flexibilización monetaria antes de fin de año si la inflación continúa su trayectoria descendente. Esta señal ofrece un respiro a los mercados y empresas europeas, que esperan una reactivación del crédito y la inversión en un contexto de crecimiento económico moderado.</p>
+            <h2>1. Gigantes Tecnológicos Anuncian Inversiones Masivas en Infraestructura de IA de Próxima Generación</h2>
+            <p class="summary">Varias de las mayores empresas tecnológicas, incluyendo Alphabet y Microsoft, han revelado planes para invertir cientos de miles de millones de dólares en la expansión de su infraestructura de centros de datos y desarrollo de chips de IA especializados. Esta escalada busca soportar la creciente demanda de modelos de lenguaje avanzados y aplicaciones de inteligencia artificial generativa, marcando una nueva fase en la carrera por la supremacía en IA.</p>
             <div class="card-footer">
-                <strong>Sectores:</strong> Finanzas, Banca, Mercados de Capitales, Economía Global
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <span class="badge" style="background-color: #16a34a;">Alcista</span>
-                <span class="source">Reuters / El Economista</span>
-            </div>
-            <h2>2. Gigante Minero Anuncia Inversión Multimillonaria en Litio de Grado Batería en Sudamérica</h2>
-            <p class="summary">Glencore ha revelado planes para una inversión de 8.000 millones de dólares en la expansión de sus operaciones de extracción y procesamiento de litio en Argentina y Chile, buscando satisfacer la creciente demanda global de baterías para vehículos eléctricos. Esta iniciativa busca asegurar el suministro de un mineral clave y consolidar la posición de la región como actor fundamental en la transición energética global, con un impacto significativo en las economías locales.</p>
-            <div class="card-footer">
-                <strong>Sectores:</strong> Minería, Energías Renovables, Automotriz, Materias Primas
+                <strong>Sectores:</strong> Tecnología, Semiconductores, Infraestructura Cloud
             </div>
         </div>
         
         <div class="card">
             <div class="card-header">
                 <span class="badge" style="background-color: #0284c7;">Neutral</span>
-                <span class="source">Financial Times / Expansión</span>
+                <span class="source">Wall Street Journal</span>
             </div>
-            <h2>3. La UE y EE. UU. Presentan un Marco Regulatorio Conjunto para la IA Avanzada</h2>
-            <p class="summary">La Comisión Europea y el Departamento de Comercio de EE. UU. han anunciado un acuerdo para establecer un marco regulatorio transatlántico conjunto para la inteligencia artificial avanzada, buscando equilibrar la innovación con la seguridad y la ética. Este movimiento histórico establecerá estándares globales para modelos de IA generativa y autónoma, afectando directamente a las grandes tecnológicas y startups en su desarrollo y despliegue de soluciones.</p>
+            <h2>2. La Reserva Federal Mantiene Tasas de Interés Estables, Señalando Cautela Ante la Inflación Persistente</h2>
+            <p class="summary">En su última reunión, la Reserva Federal decidió mantener las tasas de interés sin cambios, citando la necesidad de más datos para asegurar que la inflación se encamine de manera sostenible hacia su objetivo del 2%. Esta postura de 'esperar y ver' se produce en un contexto de crecimiento económico moderado y un mercado laboral resiliente, aunque con presiones inflacionarias en sectores clave.</p>
             <div class="card-footer">
-                <strong>Sectores:</strong> Tecnología, Software, Regulación, Inteligencia Artificial
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <span class="badge" style="background-color: #dc2626;">Bajista</span>
-                <span class="source">The Wall Street Journal / Cinco Días</span>
-            </div>
-            <h2>4. Tensiones Comerciales entre EE. UU. y China Recrudecen con Nuevas Restricciones a Exportaciones Tecnológicas</h2>
-            <p class="summary">Washington ha impuesto nuevas restricciones a la exportación de equipos avanzados de fabricación de chips a China, mientras que Pekín ha respondido con medidas similares sobre minerales críticos para la industria tecnológica. Esta escalada amenaza con profundizar la fragmentación de las cadenas de suministro globales y generar incertidumbre en los mercados de semiconductores y electrónica de consumo, impactando negativamente los márgenes de beneficio de las empresas implicadas.</p>
-            <div class="card-footer">
-                <strong>Sectores:</strong> Tecnología, Semiconductores, Comercio Internacional, Manufactura
+                <strong>Sectores:</strong> Finanzas, Mercados de Capitales, Banca Central
             </div>
         </div>
         
         <div class="card">
             <div class="card-header">
                 <span class="badge" style="background-color: #16a34a;">Alcista</span>
-                <span class="source">Variety / Expansión</span>
+                <span class="source">Financial Times</span>
             </div>
-            <h2>5. Consolidación en el Streaming: Disney+ Adquiere el Grupo de Contenidos 'StreamVerse' por 12.000 Millones</h2>
-            <p class="summary">The Walt Disney Company ha anunciado la adquisición de StreamVerse, una plataforma emergente de contenido original y licencias de nicho, por 12.000 millones de dólares en una operación que busca fortalecer su posición en la guerra del streaming. Esta compra estratégica permitirá a Disney+ expandir significativamente su catálogo y base de suscriptores, enfrentando la creciente competencia y la saturación del mercado global de entretenimiento digital.</p>
+            <h2>3. Alianza Europea Lanza el Mayor Fondo de Inversión en Hidrógeno Verde para Acelerar la Descarbonización Industrial</h2>
+            <p class="summary">Un consorcio de bancos de inversión y empresas energéticas europeas ha anunciado la creación de un fondo de 50 mil millones de euros dedicado exclusivamente al desarrollo de proyectos de hidrógeno verde a gran escala en el continente. El objetivo es impulsar la producción y distribución de este combustible limpio, esencial para la descarbonización de industrias pesadas y el transporte de larga distancia, posicionando a Europa como líder global.</p>
             <div class="card-footer">
-                <strong>Sectores:</strong> Medios de Comunicación, Entretenimiento, Tecnología, Contenidos Digitales
+                <strong>Sectores:</strong> Energía, Tecnología Verde, Industria
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="badge" style="background-color: #0284c7;">Neutral</span>
+                <span class="source">Nikkei Asia</span>
+            </div>
+            <h2>4. Taiwán Anuncia Nueva Generación de Chips de 2nm, Intensificando la Competencia Global y Preocupaciones Geopolíticas</h2>
+            <p class="summary">TSMC ha revelado planes para la producción en volumen de chips de 2 nanómetros para finales de 2026, lo que representa un salto significativo en la capacidad de procesamiento y eficiencia energética. Este avance refuerza la posición dominante de Taiwán en la fabricación de semiconductores de vanguardia, pero también subraya la vulnerabilidad de la cadena de suministro global ante las crecientes tensiones geopolíticas en la región.</p>
+            <div class="card-footer">
+                <strong>Sectores:</strong> Semiconductores, Tecnología, Geopolítica, Manufactura
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="badge" style="background-color: #0284c7;">Neutral</span>
+                <span class="source">Reuters</span>
+            </div>
+            <h2>5. Precios del Cobre Alcanzan Máximos Históricos por Demanda de Electrificación y Restricciones de Suministro</h2>
+            <p class="summary">El precio del cobre ha superado récords históricos en los mercados internacionales, impulsado por la acelerada demanda global para la electrificación, vehículos eléctricos e infraestructura de energía renovable, sumado a interrupciones en el suministro de importantes minas en Sudamérica. Este incremento beneficia a países productores y empresas mineras, pero genera presiones de costos para las industrias manufactureras y de construcción a nivel mundial.</p>
+            <div class="card-footer">
+                <strong>Sectores:</strong> Materias Primas, Minería, Vehículos Eléctricos, Energía Renovable
             </div>
         </div>
         
         </main>
     </div>
+
+    <script>
+        async function dispararActualizacion() {
+            const btn = document.getElementById('reloadBtn');
+            const status = document.getElementById('status-msg');
+            
+            // Solicitamos el token en un prompt simple para no exponer claves en el repo
+            const token = prompt("Ingresá tu Personal Access Token de GitHub para autorizar la actualización:");
+            if (!token) return;
+
+            btn.disabled = true;
+            status.style.display = "block";
+
+            try {
+                const response = await fetch('https://api.github.com/repos/Jjay-p/automatizacion/actions/workflows/automatizacion.yml/dispatches', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/vnd.github+json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ ref: 'main' })
+                });
+
+                if (response.ok) {
+                    alert("¡Disparo exitoso! Esperá unos 45 segundos a que corra el script y recargá la página.");
+                    setTimeout(() => { window.location.reload(); }, 45000);
+                } else {
+                    alert("Error autorizando la ejecución. Verificá tu token.");
+                    btn.disabled = false;
+                    status.style.display = "none";
+                }
+            } catch (err) {
+                alert("Error de conexión: " + err);
+                btn.disabled = false;
+                status.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

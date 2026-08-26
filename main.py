@@ -27,7 +27,6 @@ def buscar_y_analizar_noticias():
         contents=prompt
     )
     
-    # Limpiamos bloques de código markdown por si la API los devuelve envueltos
     texto_limpio = response.text.replace("```json", "").replace("```", "").strip()
     return json.loads(texto_limpio)
 
@@ -59,8 +58,9 @@ def guardar_informe(data):
     
     with open(nombre_archivo, "w", encoding="utf-8") as f:
         f.write(contenido_markdown)
+    
+    print(f"Informe guardado exitosamente: {nombre_archivo}")
 
 if __name__ == "__main__":
     data = buscar_y_analizar_noticias()
     guardar_informe(data)
-        print(f"Error procesando la noticia: {e}")

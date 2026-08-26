@@ -8,17 +8,17 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 
 def buscar_y_analizar_noticias():
     prompt = """
-    Busca noticias financieras y de mercado relevantes recientes en español.
-    Genera un análisis rápido del impacto de mercado.
+    Analiza la situación actual de los mercados financieros y de negocios en español.
+    Genera un informe con una noticia o tendencia clave del mercado.
     
-    Responde ÚNICAMENTE con un JSON válido con esta estructura exacta:
+    Responde ÚNICAMENTE con un JSON válido con esta estructura exacta (sin markdown ni texto extra):
     {
-        "titulo": "Título de la noticia",
-        "fuente": "Fuente o medio",
-        "resumen": "Resumen de 2 oraciones",
+        "titulo": "Título descriptivo de la noticia",
+        "fuente": "Medio o Sector",
+        "resumen": "Resumen ejecutivo en dos oraciones",
         "impacto": "Alcista / Bajista / Neutral",
-        "sectores_afectados": ["Sector 1", "Sector 2"],
-        "repercusiones": ["Punto 1", "Punto 2"]
+        "sectores_afectados": ["Sector A", "Sector B"],
+        "repercusiones": ["Efecto 1", "Efecto 2"]
     }
     """
 
@@ -27,7 +27,7 @@ def buscar_y_analizar_noticias():
         contents=prompt
     )
     
-    # Limpiamos delimitadores si la IA envía bloques de código markdown
+    # Limpiamos bloques de código markdown por si la API los devuelve envueltos
     texto_limpio = response.text.replace("```json", "").replace("```", "").strip()
     return json.loads(texto_limpio)
 
@@ -41,29 +41,26 @@ def guardar_informe(data):
     contenido_markdown = f"""# 📊 Alerta de Mercado & Análisis IA
 **Fecha:** {datetime.now().strftime("%d/%m/%Y %H:%M")}
 
-### 📰 {data.get('titulo', 'Sin título')}
+### 📰 {data.get('titulo', 'Informe de Mercado')}
 - **Fuente:** {data.get('fuente', 'N/A')}
 - **Impacto:** `{data.get('impacto', 'Neutral')}`
-- **Sectores:** {sectores}
+- **Sectores Afectados:** {sectores}
 
 ---
 
-### 📝 Resumen
+### 📝 Resumen Ejecutivo
 {data.get('resumen', '')}
 
 ---
 
-### ⚡ Repercusiones
+### ⚡ Posibles Repercusiones
 {repercusiones}
 """
     
     with open(nombre_archivo, "w", encoding="utf-8") as f:
         f.write(contenido_markdown)
-        
-    print(f"Archivo generado exitosamente: {nombre_archivo}")
 
 if __name__ == "__main__":
-    # Sin try/except para que si hay error se corte e informe
     data = buscar_y_analizar_noticias()
     guardar_informe(data)
         print(f"Error procesando la noticia: {e}")

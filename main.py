@@ -1,5 +1,6 @@
 import os
 import json
+import time
 from datetime import datetime
 from google import genai
 
@@ -10,7 +11,7 @@ def obtener_5_noticias():
     prompt = """
     Busca las 5 noticias de negocios, economía y mercados más importantes del día en español.
     
-    Responde ÚNICAMENTE con un JSON válido con esta estructura exactas (sin markdown ni texto extra):
+    Responde ÚNICAMENTE con un JSON válido con esta estructura exacta (sin markdown ni texto extra):
     {
         "noticias": [
             {
@@ -24,13 +25,23 @@ def obtener_5_noticias():
     }
     """
 
-    response = client.models.generate_content(
-        model='gemini-2.5-flash',
-        contents=prompt
-    )
+    # Modelos a intentar en caso de que uno esté saturado (503)
+    modelos = ['gemini-2.5-flash', 'gemini-1.5-flash']
     
-    texto_limpio = response.text.replace("```json", "").replace("```", "").strip()
-    return json.loads(texto_limpio)
+    for modelo in modelos:
+        try:
+            print(f"Intentando generar contenido con {modelo}...")
+            # Usamos chats.create para evitar la advertencia de AFC
+            chat = client.chats.create(model=modelo)
+            response = chat.send_message(prompt)
+            
+            texto_limpio = response.text.replace("```json", "").replace("```", "").strip()
+            return json.loads(texto_limpio)
+        except Exception as e:
+            print(f"Error con {modelo}: {e}. Reintentando con otro modelo...")
+            time.sleep(2)
+            
+    raise Exception("Todos los modelos fallaron por alta demanda. Reintenta en unos minutos.")
 
 def generar_html(data):
     noticias = data.get("noticias", [])
@@ -66,7 +77,7 @@ def generar_html(data):
         h1 {{ font-size: 2.5rem; margin-bottom: 10px; color: #38bdf8; }}
         .timestamp {{ color: #94a3b8; font-size: 0.9rem; }}
         .card {{ background: #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid #334155; }}
-        .card-header {{ display: flex; justify-space-between; align-items: center; margin-bottom: 12px; }}
+        .card-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }}
         .badge {{ background: #0284c7; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }}
         .source {{ color: #94a3b8; font-size: 0.85rem; }}
         h2 {{ font-size: 1.25rem; margin: 0 0 12px 0; color: #f1f5f9; }}
@@ -90,6 +101,7 @@ def generar_html(data):
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
+    print("Página web index.html generada exitosamente.")
 
 if __name__ == "__main__":
     data = obtener_5_noticias()

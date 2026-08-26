@@ -3,45 +3,55 @@ import json
 import time
 from datetime import datetime
 from google import genai
+from google.genai import types
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 def obtener_5_noticias():
-    prompt = """
-    Busca las 5 noticias de negocios, economía y mercados más importantes del día en español.
+    # Incluimos la hora exacta para forzar variabilidad en cada ejecución
+    ahora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    prompt = f"""
+    Fecha y hora actual de la consulta: {ahora}.
+    
+    Instrucción: Busca y selecciona las 5 noticias de negocios, economía, tecnología y mercados más importantes e impactantes del momento en español.
+    Asegúrate de traer novedades frescas y variadas.
     
     Responde ÚNICAMENTE con un JSON válido con esta estructura exacta (sin markdown ni texto extra):
-    {
+    {{
         "noticias": [
-            {
-                "titulo": "Título de la noticia",
+            {{
+                "titulo": "Título descriptivo de la noticia",
                 "fuente": "Medio o Fuente",
-                "resumen": "Resumen ejecutivo en dos oraciones.",
+                "resumen": "Resumen ejecutivo en dos oraciones detalladas.",
                 "impacto": "Alcista / Bajista / Neutral",
                 "sectores": ["Sector A", "Sector B"]
-            }
+            }}
         ]
-    }
+    }}
     """
 
-    # Modelos a intentar en caso de que uno esté saturado (503)
     modelos = ['gemini-2.5-flash', 'gemini-1.5-flash']
+    
+    # Configuración para forzar respuestas frescas y no repetitivas
+    config = types.GenerateContentConfig(
+        temperature=0.7
+    )
     
     for modelo in modelos:
         try:
-            print(f"Intentando generar contenido con {modelo}...")
-            # Usamos chats.create para evitar la advertencia de AFC
-            chat = client.chats.create(model=modelo)
+            print(f"Buscando noticias frescas con {modelo}...")
+            chat = client.chats.create(model=modelo, config=config)
             response = chat.send_message(prompt)
             
             texto_limpio = response.text.replace("```json", "").replace("```", "").strip()
             return json.loads(texto_limpio)
         except Exception as e:
-            print(f"Error con {modelo}: {e}. Reintentando con otro modelo...")
+            print(f"Error con {modelo}: {e}. Reintentando...")
             time.sleep(2)
             
-    raise Exception("Todos los modelos fallaron por alta demanda. Reintenta en unos minutos.")
+    raise Exception("Todos los modelos fallaron. Reintenta en unos minutos.")
 
 def generar_html(data):
     noticias = data.get("noticias", [])
@@ -50,10 +60,19 @@ def generar_html(data):
     cards_html = ""
     for i, item in enumerate(noticias, 1):
         sectores = ", ".join(item.get("sectores", []))
+        
+        # Color del badge según impacto
+        impacto = item.get('impacto', 'Neutral')
+        color_badge = "#0284c7"  # azul por defecto
+        if "Alcista" in impacto:
+            color_badge = "#16a34a"  # verde
+        elif "Bajista" in impacto:
+            color_badge = "#dc2626"  # rojo
+
         cards_html += f"""
         <div class="card">
             <div class="card-header">
-                <span class="badge">{item.get('impacto', 'Neutral')}</span>
+                <span class="badge" style="background-color: {color_badge};">{impacto}</span>
                 <span class="source">{item.get('fuente', 'N/A')}</span>
             </div>
             <h2>{i}. {item.get('titulo')}</h2>
@@ -78,7 +97,7 @@ def generar_html(data):
         .timestamp {{ color: #94a3b8; font-size: 0.9rem; }}
         .card {{ background: #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid #334155; }}
         .card-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }}
-        .badge {{ background: #0284c7; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }}
+        .badge {{ color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }}
         .source {{ color: #94a3b8; font-size: 0.85rem; }}
         h2 {{ font-size: 1.25rem; margin: 0 0 12px 0; color: #f1f5f9; }}
         .summary {{ color: #cbd5e1; line-height: 1.6; margin-bottom: 16px; }}
@@ -89,7 +108,7 @@ def generar_html(data):
     <div class="container">
         <header>
             <h1>📰 What's Happening Today?</h1>
-            <p class="timestamp">Última actualización: {fecha_actual} (Argentina)</p>
+            <p class="timestamp">Última actualización: {fecha_actual} (hs)</p>
         </header>
         <main>
             {cards_html}

@@ -34,7 +34,7 @@
     <div class="container">
         <header>
             <h1>📰 What's Happening Today?</h1>
-            <p class="timestamp">Última actualización: 19/10/2026 15:04 (hs)</p>
+            <p class="timestamp">Última actualización: 19/10/2026 20:46 (hs)</p>
             <button class="btn-update" id="reloadBtn" onclick="dispararActualizacion()">
                 🔄 Actualizar Noticias Ahora
             </button>
@@ -44,13 +44,37 @@
             
         <div class="card">
             <div class="card-header">
-                <span class="badge" style="background-color: #dc2626;">Bajista</span>
+                <span class="badge" style="background-color: #16a34a;">Alcista</span>
                 <span class="source">Reuters</span>
             </div>
-            <h2>1. BCE Mantiene Tasas de Interés en Máximos Históricos Ante Inflación Subyacente Persistente</h2>
-            <p class="summary">El Banco Central Europeo (BCE) ha decidido mantener sus tasas de interés sin cambios en su reunión de octubre, contrariando las expectativas de algunos analistas que preveían un posible recorte antes de fin de año. La presidenta Christine Lagarde enfatizó la necesidad de una postura restrictiva prolongada debido a la resiliencia de la inflación subyacente y un mercado laboral robusto en la Eurozona, lo que podría generar presiones sobre las empresas y el consumo.</p>
+            <h2>1. El BCE evalúa recortes de tasas agresivos ante la desaceleración del crecimiento en la Eurozona</h2>
+            <p class="summary">El Banco Central Europeo ha indicado que podría considerar recortes de tasas de interés más profundos de lo anticipado, citando nuevos datos que apuntan a una marcada desaceleración económica en los países de la Eurozona. Esta señal contrasta con la persistente inflación subyacente, creando un dilema para la política monetaria y generando incertidumbre en los mercados financieros.</p>
             <div class="card-footer">
-                <strong>Sectores:</strong> Banca, Consumo, Inmobiliario, Deuda Pública
+                <strong>Sectores:</strong> Banca, Mercados Financieros, Tecnología, Consumo Discrecional
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="badge" style="background-color: #0284c7;">Neutral</span>
+                <span class="source">Financial Times</span>
+            </div>
+            <h2>2. La Unión Europea aprueba la Ley de IA, estableciendo un precedente global para la regulación tecnológica</h2>
+            <p class="summary">La Unión Europea ha finalizado la aprobación de su histórica Ley de Inteligencia Artificial, que introduce un marco regulatorio estricto para sistemas de IA de alto riesgo y establece estándares éticos y de transparencia. Esta legislación, la primera de su tipo a nivel mundial, impactará significativamente a las empresas tecnológicas que operan o desean operar en el mercado europeo, forzándolas a adaptar sus desarrollos y modelos de negocio.</p>
+            <div class="card-footer">
+                <strong>Sectores:</strong> Tecnología, Software, Servicios Profesionales, Ciberseguridad
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <span class="badge" style="background-color: #dc2626;">Bajista</span>
+                <span class="source">Bloomberg</span>
+            </div>
+            <h2>3. Los precios del petróleo Brent superan los $100 tras nuevas tensiones en Oriente Medio</h2>
+            <p class="summary">Los futuros del petróleo Brent han escalado por encima de los 100 dólares por barril por primera vez en más de un año, impulsados por una intensificación de las tensiones geopolíticas en una región clave productora de petróleo en Oriente Medio y la preocupación por interrupciones en el suministro. Este repunte amenaza con reavivar las presiones inflacionarias a nivel global y podría forzar a los bancos centrales a reconsiderar sus estrategias de política monetaria.</p>
+            <div class="card-footer">
+                <strong>Sectores:</strong> Energía, Transporte, Manufactura, Químicos, Consumo
             </div>
         </div>
         
@@ -59,46 +83,22 @@
                 <span class="badge" style="background-color: #16a34a;">Alcista</span>
                 <span class="source">The Wall Street Journal</span>
             </div>
-            <h2>2. "QuantumMind": Google Lanza su Plataforma de IA Generativa de Próxima Generación con Enfoque en Medicina y Biotecnología</h2>
-            <p class="summary">Google ha presentado "QuantumMind", su avanzada plataforma de inteligencia artificial generativa, que promete transformar la investigación y el desarrollo en los campos de la medicina y la biotecnología. La compañía afirma que esta IA puede acelerar el descubrimiento de fármacos y la personalización de tratamientos, posicionando a Google como un actor clave en la intersección de la IA y las ciencias de la vida, abriendo nuevas vías de inversión y colaboración.</p>
+            <h2>4. TSMC anuncia una megafábrica de chips de 2nm en Arizona, reforzando la autonomía tecnológica de EE. UU.</h2>
+            <p class="summary">Taiwan Semiconductor Manufacturing Company (TSMC) ha revelado planes para construir una tercera y avanzada planta de fabricación de chips de 2 nanómetros en Arizona, con una inversión multimillonaria apoyada por incentivos gubernamentales estadounidenses. Este movimiento estratégico busca fortalecer la cadena de suministro de semiconductores de EE. UU. y reducir la dependencia de la producción asiática, impulsando la seguridad tecnológica y la creación de empleos de alta cualificación.</p>
             <div class="card-footer">
-                <strong>Sectores:</strong> Tecnología, Biotecnología, Farmacéutica, Salud
+                <strong>Sectores:</strong> Semiconductores, Tecnología, Manufactura, Defensa, Construcción
             </div>
         </div>
         
         <div class="card">
             <div class="card-header">
                 <span class="badge" style="background-color: #16a34a;">Alcista</span>
-                <span class="source">Bloomberg</span>
+                <span class="source">El País</span>
             </div>
-            <h2>3. Precios del Litio se Disparan Tras Interrupción de Suministro Clave en Sudamérica por Huelgas Mineras</h2>
-            <p class="summary">Los precios globales del litio han experimentado un alza significativa en las últimas 48 horas, luego de que una serie de huelgas laborales y bloqueos en importantes minas de Sudamérica paralizaran una parte sustancial de la producción. Analistas advierten que esta interrupción podría agravar la escasez de componentes para baterías y afectar la cadena de suministro de vehículos eléctricos a nivel mundial, subrayando la fragilidad de las cadenas de suministro de minerales críticos.</p>
+            <h2>5. Brasil lanza ambicioso plan de inversión en infraestructura verde para impulsar el crecimiento</h2>
+            <p class="summary">El gobierno brasileño ha presentado un plan de inversión masivo de 150 mil millones de dólares centrado en infraestructura verde, incluyendo energías renovables, saneamiento y transporte sostenible, con el objetivo de estimular el crecimiento económico y atraer inversión extranjera. Este programa busca diversificar la economía, reducir la huella de carbono del país y crear millones de empleos, aunque enfrenta desafíos en la implementación y la atracción de capital privado a gran escala.</p>
             <div class="card-footer">
-                <strong>Sectores:</strong> Automotriz, Baterías, Minería, Tecnología, Energía Renovable
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <span class="badge" style="background-color: #16a34a;">Alcista</span>
-                <span class="source">Financial Times</span>
-            </div>
-            <h2>4. Microsoft Anuncia la Adquisición de "CloudFusion" en Movimiento Estratégico para Dominar la Nube Híbrida</h2>
-            <p class="summary">Microsoft ha revelado su intención de adquirir CloudFusion, una empresa líder en soluciones de nube híbrida y gestión de infraestructuras multicloud, en una operación valorada en miles de millones de dólares. Esta adquisición busca fortalecer la posición de Azure frente a sus competidores, ofreciendo a las empresas una integración más profunda y segura entre sus centros de datos locales y los servicios en la nube, y subrayando la creciente importancia de las arquitecturas híbridas.</p>
-            <div class="card-footer">
-                <strong>Sectores:</strong> Tecnología, Software, Computación en la Nube, Ciberseguridad
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <span class="badge" style="background-color: #16a34a;">Alcista</span>
-                <span class="source">The Economic Times</span>
-            </div>
-            <h2>5. India Lanza Audaz Paquete de Reformas para Atraer Inversión Extranjera Directa y Acelerar el Crecimiento</h2>
-            <p class="summary">El gobierno de la India ha anunciado un ambicioso paquete de reformas económicas destinado a simplificar la burocracia, reducir los impuestos corporativos y facilitar la inversión extranjera directa en sectores clave como la manufactura y la tecnología. Este movimiento busca posicionar a la India como una alternativa atractiva a China para la producción global y acelerar su trayectoria de crecimiento económico, aunque su implementación enfrenta desafíos y posibles resistencias internas.</p>
-            <div class="card-footer">
-                <strong>Sectores:</strong> Manufactura, Tecnología, Servicios Financieros, Infraestructura, Inversión Extranjera
+                <strong>Sectores:</strong> Energías Renovables, Infraestructura, Finanzas Sostenibles, Materias Primas, Servicios Públicos
             </div>
         </div>
         
